@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xcdm.adminBag.mapper.SonbagsMapper"> 
+
+<select id="showAllsonbag" resultType="Sonbags">
+<bind name="sp" value="parentbagsid + '%'" />
+ SELECT s.sonbagsid as sonbagid ,s.updated,s.created ,
+CASE s.isusered WHEN 0 THEN "未使用"
+ WHEN 1 THEN "使用中"
+ WHEN 2 THEN "故障"
+ END 	  as  isusered, 
+CASE s.type 
+WHEN "big" THEN "大柜子"
+WHEN "small" THEN "小柜子"
+END as type, 
+ parentbags.address,parentbagsid FROM
+ sonbags s,parentbags WHERE 
+  s.sonbagsid LIKE #{sp} AND parentbagsid=#{parentbagsid} 
+ LIMIT #{pager.offset}, #{pager.rows} </select>
+
+<select id="selectAll" resultType="_long">
+<bind name="sp" value="parentbagsid + '%'" />
+	select count(1)  from  sonbags s  where  s.sonbagsid LIKE #{sp}
+</select>
+<select id="selectsoid"  resultType="_long">
+select count(*) from sonbags where sonbagsid=#{sonbagid}
+</select>
+<insert id="insert" parameterType="cn.xcdm.adminBag.po.Sonbags">
+		insert into sonbags
+		VALUES(#{sonbags.sonbagid},#{sonbags.updated},
+		#{sonbags.created},#{sonbags.isusered},#{sonbags.type} )</insert>
+		
+<select id="getSonbagByid" resultType="cn.xcdm.adminBag.po.Sonbags" >
+SELECT s.sonbagsid as sonbagid ,s.updated,s.created ,s.type,s.isusered from sonbags s where sonbagsid=#{sonbagid}
+</select>
+	 
+	<update id="editSonBag">
+UPDATE  sonbags SET type=#{sonbags.type}, isusered=#{sonbags.isusered},updated=#{sonbags.updated}
+ WHERE sonbagsid=#{sonbags.sonbagid}
+
+</update>
+		
+</mapper>

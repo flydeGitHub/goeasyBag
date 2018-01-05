@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xcdm.adminBag.mapper.AccountMapper"> 
+ 
+
+<select id="accountList" resultType="account">
+SELECT nickname,user_phonebind.newphone ,balance FROM user_phonebind, users_ext,users_account WHERE users_ext.phone=users_account.phone AND user_phonebind.oldphone=users_account.phone LIMIT #{pager.offset}, #{pager.rows}
+</select>
+
+<select id="selectAll" resultType="_long">
+	select count(1)  from  users_account 
+</select>
+</mapper>

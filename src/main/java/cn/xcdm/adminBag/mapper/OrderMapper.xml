@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xcdm.adminBag.mapper.OrderMapper">
+
+	<select id="selectAllOrder" resultType="order">
+		SELECT o.orderid,o.sonbagid,o.paymoney,o.start_time,o.end_time,o.paytype,
+		CASE o.`status` WHEN 'TRADE_SUCCESS' THEN "成功" WHEN 'WAIT_BUYER_PAY'
+		THEN "未成功" END
+		as `status` ,CASE o.ordertype WHEN 'consume' THEN "消费" WHEN 'recharge'
+		THEN "充值" END
+		as ordertype,user_phonebind.newphone,users_ext.nickname FROM orders
+		o,user_phonebind,users_ext WHERE user_phonebind.oldphone=o.phone AND
+		users_ext.phone=o.phone LIMIT #{pager.offset}, #{pager.rows}
+	</select>
+
+	<select id="selectAll" resultType="_long">
+		select count(1) from orders
+	</select>
+</mapper>

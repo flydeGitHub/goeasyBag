@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xcdm.adminBag.mapper.RecommendedPositionMapper"> 
+<!-- <sql id="Base_Column_List" >
+	id, 
+	category_id as categoryId, 
+	title, 
+	sub_title as subTitle, 
+	title_desc as titleDesc, 
+	url, 
+	pic, 
+	pic2, 
+	created, 
+	updated
+</sql>
+
+<select id="selectByPage" resultType="name.yaohuan.ttshop.pojo.po.TbContent">
+	SELECT <include refid="Base_Column_List"></include>
+	FROM tb_content c
+	WHERE category_id = #{categoryId}
+	LIMIT #{pager.offset}, #{pager.rows}
+</select> -->
+
+<select id="selectAllPosition" resultType="UserRecommendedPosition">
+  select newphone,user_recommended_position.created,address,information from user_recommended_position,user_phonebind
+WHERE user_phonebind.oldphone=user_recommended_position.phone LIMIT #{pager.offset}, #{pager.rows}
+<!-- select urpid,phone,created,address,information from user_recommended_position -->
+</select>
+
+<select id="selectTotal" resultType="_long">
+	select count(1)  from  user_recommended_position 
+</select>
+</mapper>

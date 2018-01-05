@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xcdm.adminBag.mapper.ParentbagsMapper">
+
+	<select id="showAllparentbag" resultType="parentbags">
+		SELECT * FROM parentbags LIMIT #{pager.offset}, #{pager.rows}
+	</select>
+
+	<select id="selectAll" resultType="_long">
+		select count(1) from parentbags
+	</select>
+	<insert id="insert" parameterType="cn.xcdm.adminBag.po.Parentbags">
+		insert into parentbags
+		VALUES(#{parentbags.parentbagsid},#{parentbags.longitude},#{parentbags.latitude},#{parentbags.address},#{parentbags.updated},#{parentbags.created})</insert>
+
+<select id="selectpaid"  resultType="_long">
+select count(*) from parentbags where parentbagsid=#{parentbagsid}
+</select>
+
+<select id="getParentByid" resultType="parentbags" >
+select * from parentbags where parentbagsid=#{parentbagsid}
+</select>
+<update id="editParentBag">
+UPDATE  parentbags SET address=#{parentbags.address},longitude=#{parentbags.longitude},latitude=#{parentbags.latitude},updated=#{parentbags.updated} WHERE parentbagsid=#{parentbags.parentbagsid}
+
+</update>
+
+
+</mapper>
